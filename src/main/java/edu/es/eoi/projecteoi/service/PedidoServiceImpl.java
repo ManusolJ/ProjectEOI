@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class PedidoService {
+public class PedidoServiceImpl {
 
     @Autowired
     private PedidoRepository pedidoRepository;
@@ -31,6 +31,8 @@ public class PedidoService {
     @Autowired
     private ArticuloRepository articuloRepository;
 
+
+    //TODO REVISAR TODA ESTA MIERDA
     public List<PedidoDTO> getAllPedidosByNombre(String nombre) {
 
         List<Pedido> pedidos = pedidoRepository.findAll();

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ArticuloService {
+public class ArticuloServiceImpl {
 
     @Autowired
     private ArticuloRepository articuloRepository;

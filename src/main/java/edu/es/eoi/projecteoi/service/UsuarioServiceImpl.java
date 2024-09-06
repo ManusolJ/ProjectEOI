@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class UsuarioService {
+public class UsuarioServiceImpl {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -78,6 +78,18 @@ public class UsuarioService {
 
     public UsuarioDTO loginUsuario(UsuarioCreateAndLoginDTO usuarioDTO){
 
-       return usuarioRepository.findByNombreUsuarioAndPassword(usuarioDTO.getNombreUsuario(), usuarioDTO.getPassword());
+       Usuario usuario = usuarioRepository.findByNombreUsuarioAndPassword(usuarioDTO.getNombreUsuario(), usuarioDTO.getPassword());
+
+       UsuarioDTO usarioDTO = new UsuarioDTO();
+
+       if(usuario != null){
+           usarioDTO.setIdUsuario(usuario.getIdUsuario());
+           usarioDTO.setNombreUsuario(usuario.getNombreUsuario());
+           usarioDTO.setPassword(usuario.getPassword());
+           return usarioDTO;
+       }else{
+
+           return null;
+       }
     }
 }
