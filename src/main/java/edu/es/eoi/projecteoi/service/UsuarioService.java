@@ -23,13 +23,13 @@ public class UsuarioService {
         List<UsuarioDTO> usuarioDTOS = new ArrayList<>();
 
         for (Usuario usuario : usuarios){
-            UsuarioDTO dto = new UsuarioDTO();
+            UsuarioDTO usuarioDTO = new UsuarioDTO();
 
-            dto.setIdUsuario(usuario.getIdUsuario());
-            dto.setNombreUsuario(usuario.getNombreUsuario());
-            dto.setPassword(usuario.getPassword());
+            usuarioDTO.setIdUsuario(usuario.getIdUsuario());
+            usuarioDTO.setNombreUsuario(usuario.getNombreUsuario());
+            usuarioDTO.setPassword(usuario.getPassword());
 
-            usuarioDTOS.add(dto);
+            usuarioDTOS.add(usuarioDTO);
         }
 
         return usuarioDTOS;
@@ -47,13 +47,13 @@ public class UsuarioService {
 
         Usuario usuario = usuarioRepository.findById(idUsario).get();
 
-        UsuarioDTO dto = new UsuarioDTO();
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
 
-        dto.setIdUsuario(usuario.getIdUsuario());
-        dto.setNombreUsuario(usuario.getNombreUsuario());
-        dto.setPassword(usuario.getPassword());
+        usuarioDTO.setIdUsuario(usuario.getIdUsuario());
+        usuarioDTO.setNombreUsuario(usuario.getNombreUsuario());
+        usuarioDTO.setPassword(usuario.getPassword());
 
-        return dto;
+        return usuarioDTO;
     }
 
     public void createUsuario(UsuarioCreateAndLoginDTO usuarioDTO){
