@@ -121,7 +121,53 @@ public class PedidoService {
         pedidoRepository.save(pedido);
     }
 
-    public void updatePedido(PedidoDTO PedidoDTO){
+    public void updatePedido(PedidoDTO pedidoDTO){
+        //TODO PENSAR ESTO MEJOR
+        //uff... Que pocho esta esto.
 
+        Pedido pedido = pedidoRepository.findById(pedidoDTO.getIdPedido()).get();
+
+        pedido.setNombrePedido(pedidoDTO.getNombrePedido());
+        pedido.setFechaPedido(pedidoDTO.getFechaPedido());
+
+        List<ArticuloPedido> articuloPedidos = new ArrayList<>();
+
+        for(ArticuloPedido articuloPedido: pedido.getArticulosEnPedido()){
+            Articulo articulo = articuloRepository.findById(articuloPedido.getArticulo().getIdArticulo()).get();
+            articulo.setStock(articulo.getStock() + articuloPedido.getCantidadPedida());
+            articuloRepository.save(articulo);
+        }
+
+        articuloPedidoRepository.deleteById(pedido.getIdPedido());
+
+        for (ArticuloPedidoDTO articuloPedidoDTO : pedidoDTO.getArticulos()) {
+            Articulo articulo = articuloRepository.findById(articuloPedidoDTO.getIdArticulo()).get();
+            ArticuloPedido articuloPedido = new ArticuloPedido();
+            articuloPedido.setArticulo(articulo);
+            articuloPedido.setPedido(pedido);
+            articuloPedido.setCantidadPedida(articuloPedidoDTO.getCantidad());
+            articulo.setStock(articulo.getStock() - articuloPedidoDTO.getCantidad());
+            articuloRepository.save(articulo);
+            articuloPedidos.add(articuloPedido);
+        }
+
+        pedido.setArticulosEnPedido(articuloPedidos);
+
+        pedidoRepository.save(pedido);
+    }
+
+    public void deletePedido(String idPedido){
+
+        Pedido pedido = pedidoRepository.findById(Integer.parseInt(idPedido)).get();
+
+        for(ArticuloPedido articuloPedido: pedido.getArticulosEnPedido()){
+            Articulo articulo = articuloRepository.findById(articuloPedido.getArticulo().getIdArticulo()).get();
+            articulo.setStock(articulo.getStock() + articuloPedido.getCantidadPedida());
+            articuloRepository.save(articulo);
+        }
+
+        articuloPedidoRepository.deleteById(pedido.getIdPedido());
+
+        pedidoRepository.delete(pedido);
     }
 }
