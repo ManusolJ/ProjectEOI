@@ -32,7 +32,6 @@ public class PedidoServiceImpl {
     private ArticuloRepository articuloRepository;
 
 
-    //TODO REVISAR TODA ESTA MIERDA
     public List<PedidoDTO> getAllPedidosByNombre(String nombre) {
 
         List<Pedido> pedidos = pedidoRepository.findAll();
@@ -41,7 +40,7 @@ public class PedidoServiceImpl {
 
         List<ArticuloPedido> articulosPedidos = articuloPedidoRepository.findAll();
 
-        List<ArticuloPedidoDTO> articulosPedidoDTOs = new ArrayList<>();
+
 
         for (Pedido pedido : pedidos) {
             if(pedido.getNombrePedido().toLowerCase().contains(nombre.toLowerCase())) {
@@ -49,6 +48,8 @@ public class PedidoServiceImpl {
                 pedidoDTO.setIdPedido(pedido.getIdPedido());
                 pedidoDTO.setNombrePedido(pedido.getNombrePedido());
                 pedidoDTO.setFechaPedido(pedido.getFechaPedido());
+
+                List<ArticuloPedidoDTO> articulosPedidoDTOs = new ArrayList<>();
                 for (ArticuloPedido articuloPedido : articulosPedidos) {
                     if (articuloPedido.getPedido().getIdPedido() == pedido.getIdPedido()) {
                         ArticuloPedidoDTO articuloPedidoDTO = new ArticuloPedidoDTO();
@@ -97,6 +98,7 @@ public class PedidoServiceImpl {
         return pedidoDTO;
     }
 
+    //FIXME NO FUNCIONA LA CREACION NI EL UPDATE
     public void createPedido(PedidoCreateDTO pedidoDTO) {
 
         Pedido pedido = new Pedido();

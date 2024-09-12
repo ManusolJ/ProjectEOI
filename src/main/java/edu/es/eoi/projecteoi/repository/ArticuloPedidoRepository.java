@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ArticuloPedidoRepository extends JpaRepository<ArticuloPedido, Integer> {
 
-    public ArticuloPedidoDTO findArticuloPedidoByPedidoIs(Integer pedido);
+    ArticuloPedidoDTO findArticuloPedidoByPedidoIs(Integer pedido);
 }
