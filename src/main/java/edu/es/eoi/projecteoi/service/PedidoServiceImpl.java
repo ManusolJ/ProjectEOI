@@ -98,7 +98,6 @@ public class PedidoServiceImpl {
         return pedidoDTO;
     }
 
-    //FIXME NO FUNCIONA LA CREACION NI EL UPDATE
     public void createPedido(PedidoCreateDTO pedidoDTO) {
 
         Pedido pedido = new Pedido();
@@ -109,6 +108,10 @@ public class PedidoServiceImpl {
 
         List<ArticuloPedido> articuloPedidos = new ArrayList<>();
 
+        pedido.setArticulosEnPedido(articuloPedidos);
+
+        pedidoRepository.save(pedido);
+
         for (ArticuloPedidoDTO articuloPedidoDTO : pedidoDTO.getArticulos()) {
             Articulo articulo = articuloRepository.findById(articuloPedidoDTO.getIdArticulo()).get();
             ArticuloPedido articuloPedido = new ArticuloPedido();
@@ -117,32 +120,33 @@ public class PedidoServiceImpl {
             articuloPedido.setCantidadPedida(articuloPedidoDTO.getCantidad());
             articulo.setStock(articulo.getStock() - articuloPedidoDTO.getCantidad());
             articuloRepository.save(articulo);
+            articuloPedidoRepository.save(articuloPedido);
             articuloPedidos.add(articuloPedido);
         }
 
         pedido.setArticulosEnPedido(articuloPedidos);
-
         pedidoRepository.save(pedido);
     }
 
     public void updatePedido(PedidoDTO pedidoDTO){
-        //TODO PENSAR ESTO MEJOR
-        //uff... Que pocho esta esto.
 
         Pedido pedido = pedidoRepository.findById(pedidoDTO.getIdPedido()).get();
 
         pedido.setNombrePedido(pedidoDTO.getNombrePedido());
         pedido.setFechaPedido(pedidoDTO.getFechaPedido());
 
-        List<ArticuloPedido> articuloPedidos = new ArrayList<>();
-
         for(ArticuloPedido articuloPedido: pedido.getArticulosEnPedido()){
             Articulo articulo = articuloRepository.findById(articuloPedido.getArticulo().getIdArticulo()).get();
             articulo.setStock(articulo.getStock() + articuloPedido.getCantidadPedida());
             articuloRepository.save(articulo);
+            articuloPedidoRepository.deleteById(articuloPedido.getIdRegistroArticuloPedido());
         }
 
-        articuloPedidoRepository.deleteById(pedido.getIdPedido());
+        List<ArticuloPedido> articuloPedidos = new ArrayList<>();
+
+        pedido.setArticulosEnPedido(articuloPedidos);
+
+        pedidoRepository.save(pedido);
 
         for (ArticuloPedidoDTO articuloPedidoDTO : pedidoDTO.getArticulos()) {
             Articulo articulo = articuloRepository.findById(articuloPedidoDTO.getIdArticulo()).get();
@@ -152,6 +156,7 @@ public class PedidoServiceImpl {
             articuloPedido.setCantidadPedida(articuloPedidoDTO.getCantidad());
             articulo.setStock(articulo.getStock() - articuloPedidoDTO.getCantidad());
             articuloRepository.save(articulo);
+            articuloPedidoRepository.save(articuloPedido);
             articuloPedidos.add(articuloPedido);
         }
 
