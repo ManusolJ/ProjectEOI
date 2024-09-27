@@ -39,9 +39,7 @@ public class PedidoServiceImpl {
         List<PedidoDTO> pedidoDTOs = new ArrayList<>();
 
         List<ArticuloPedido> articulosPedidos = articuloPedidoRepository.findAll();
-
-
-
+        
         for (Pedido pedido : pedidos) {
             if(pedido.getNombrePedido().toLowerCase().contains(nombre.toLowerCase())) {
                 PedidoDTO pedidoDTO = new PedidoDTO();

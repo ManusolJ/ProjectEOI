@@ -16,6 +16,25 @@ public class ArticuloServiceImpl {
     @Autowired
     private ArticuloRepository articuloRepository;
 
+    public List<ArticuloDTO> getAllArticulos() {
+        List<Articulo> articulos = articuloRepository.findAll();
+
+        List<ArticuloDTO> articuloDTOs = new ArrayList<>();
+
+        for (Articulo articulo : articulos) {
+            ArticuloDTO articuloDTO = new ArticuloDTO();
+
+            articuloDTO.setIdArticulo(articulo.getIdArticulo());
+            articuloDTO.setNombreArticulo(articulo.getNombreArticulo());
+            articuloDTO.setPrecio(articulo.getPrecio());
+            articuloDTO.setStock(articulo.getStock());
+
+            articuloDTOs.add(articuloDTO);
+        }
+
+        return articuloDTOs;
+    }
+
     public List<ArticuloDTO> getAllArticulosByNombre(String nombre) {
 
         List<Articulo> articulos = articuloRepository.findAll();

@@ -17,6 +17,13 @@ public class ArticuloController {
     @Autowired
     private ArticuloServiceImpl articuloService;
 
+    @CrossOrigin(origins = "http://127.0.0.1:5500")
+    @GetMapping
+    public ResponseEntity<List<ArticuloDTO>> getAllArticulos() {
+
+        return new ResponseEntity<List<ArticuloDTO>>(articuloService.getAllArticulos(), HttpStatus.OK);
+    }
+
     @GetMapping("/{nombreParcial}/nombre")
     public ResponseEntity<List<ArticuloDTO>> getAllArticulosByNombreParcial(@PathVariable String nombreParcial) {
 
